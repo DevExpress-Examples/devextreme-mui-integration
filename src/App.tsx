@@ -45,26 +45,14 @@ const theme = createTheme({
   },
 });
 
-function ControlStateDisplay() {
-  const formControlContext = useFormControlContext();
-  if (formControlContext === undefined) {
-    return null;
-  }
-
-  const { value, focused } = formControlContext;
-
-  return (
-    <p>
-      { }
-      {focused ? 'focused' : 'not focused'}
-    </p>
-  );
-}
-
 function App() {
   return (
     <>
-      <MUIFormDxEditors />
+      <ThemeProvider theme={theme}>
+        <Box sx={{ p: 2, border: '1px dashed grey', display: 'flex', color: theme.palette.text.primary }}>
+          <MUIFormDxEditors />
+        </Box>
+      </ThemeProvider>
     </>
   )
 }

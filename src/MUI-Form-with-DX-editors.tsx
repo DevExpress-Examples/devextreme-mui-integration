@@ -4,7 +4,8 @@ import FormControl, { useFormControlContext } from "@mui/base/FormControl"
 import { FormEvent, useCallback, useState } from "react";
 import TextBox from "devextreme-react/text-box";
 import { CheckBox } from "devextreme-react";
-import { Input } from "@mui/material";
+import { Input, InputLabel } from "@mui/material";
+import FormLabel from '@mui/material/FormLabel';
 
 interface FormData {
     textBox: string,
@@ -36,9 +37,13 @@ const FormComponent = () => {
     }, [formData])
     return <form onSubmit={handleSubmit}>
         <FormControl value={formData} required>
+            <FormLabel component="legend">Name</FormLabel>
             <TextBoxWrapper onValueChange={handleFormDataChange('textBox')} />
-            <CheckBox onValueChange={handleFormDataChange('checkBox')} />
+            <InputLabel>Surname</InputLabel>
             <Input onChange={handleMuiFormDataChange('muiInput')} />
+            <InputLabel>Options</InputLabel>
+            <CheckBox onValueChange={handleFormDataChange('checkBox')} text="Need further instructions" />
+            <br />
             <button type="submit">Submit</button>
         </FormControl>
     </form>
