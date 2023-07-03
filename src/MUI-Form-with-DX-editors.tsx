@@ -6,6 +6,7 @@ import TextBox from "devextreme-react/text-box";
 import { CheckBox } from "devextreme-react";
 import { Input, InputLabel } from "@mui/material";
 import FormLabel from '@mui/material/FormLabel';
+import './Mui-Form.css';
 
 interface FormData {
     textBox: string,
@@ -36,7 +37,7 @@ const FormComponent = () => {
         console.log(formData);
     }, [formData])
     return <form onSubmit={handleSubmit}>
-        <FormControl value={formData} required>
+        <FormControl value={formData} className="form" required>
             <FormLabel component="legend">Name</FormLabel>
             <TextBoxWrapper onValueChange={handleFormDataChange('textBox')} />
             <InputLabel>Surname</InputLabel>
