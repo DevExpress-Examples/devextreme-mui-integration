@@ -1,11 +1,17 @@
-// import { useFormControl } from "@mui/material";
-// import FormControl from '@mui/material/FormControl';
-import FormControl, { useFormControlContext } from "@mui/base/FormControl"
 import { FormEvent, useCallback, useState } from "react";
-import TextBox from "devextreme-react/text-box";
-import { CheckBox } from "devextreme-react";
-import { Input, InputLabel } from "@mui/material";
-import FormLabel from '@mui/material/FormLabel';
+
+import { useTheme } from 'styled-components';
+
+import { unstable_styleFunctionSx, SxProps, styled, Theme } from '@mui/system';
+import MUIFormControl, { useFormControlContext } from "@mui/base/FormControl"
+import { Input as MUIInput, InputLabel as MUIInputLabel } from "@mui/material";
+import MUIFormLabel from '@mui/material/FormLabel';
+
+import DXCheckBox from "devextreme-react/check-box";
+import DXTextBox from "devextreme-react/text-box";
+import DxButton from 'devextreme-react/button';
+import notify from 'devextreme/ui/notify';
+
 import './Mui-Form.css';
 
 interface FormData {
@@ -14,18 +20,32 @@ interface FormData {
     checkBox: boolean | null,
 }
 
-const TextBoxWrapper = ({ onValueChange }: { onValueChange: (value: string) => void }) => {
+//important - starting letter of HOC should be small to be able to use hooks without lint error
+const dX_MUI_Form_Wrapper_HOC = (DXComponent: any, componentName: keyof FormData) => (props: any) => {
+    const { onValueChange, ...restProps } = props;
     const value = useFormControlContext()?.value as FormData;
+    return <DXComponent value={value[componentName]} onValueChange={onValueChange} {...restProps}></DXComponent>
+}
 
-    return <TextBox value={value.textBox} onValueChange={onValueChange} />
+const DXTextBoxWrapper = dX_MUI_Form_Wrapper_HOC(DXTextBox, 'textBox')
+const DXCheckBoxWrapper = dX_MUI_Form_Wrapper_HOC(DXCheckBox, 'checkBox')
+
+interface DivProps {
+    sx?: SxProps;
+}
+const DxButtonSxWrapped = styled(DxButton)<DivProps>(
+    unstable_styleFunctionSx,
+);
+
+const DefaultFormData = {
+    textBox: '',
+    muiInput: '',
+    checkBox: false
 }
 
 const FormComponent = () => {
-    const [formData, updateFormData] = useState<FormData>({
-        textBox: '',
-        muiInput: '',
-        checkBox: false
-    });
+    const [formData, updateFormData] = useState<FormData>(DefaultFormData);
+    const theme = useTheme() as Theme;
     const handleFormDataChange = (name: string) => (value: string | boolean | null) => {
         updateFormData({ ...formData, [name]: value });
     }
@@ -34,19 +54,27 @@ const FormComponent = () => {
     }
     const handleSubmit = useCallback((event: FormEvent) => {
         event.preventDefault();
-        console.log(formData);
-    }, [formData])
+        notify(`User ${formData.textBox} ${formData.muiInput} succesfully registered`);
+    }, [formData]);
+    const handleReset = useCallback(() => {
+        updateFormData(DefaultFormData);
+    }, []);
     return <form onSubmit={handleSubmit}>
-        <FormControl value={formData} className="form" required>
-            <FormLabel component="legend">Name</FormLabel>
-            <TextBoxWrapper onValueChange={handleFormDataChange('textBox')} />
-            <InputLabel>Surname</InputLabel>
-            <Input onChange={handleMuiFormDataChange('muiInput')} />
-            <InputLabel>Options</InputLabel>
-            <CheckBox onValueChange={handleFormDataChange('checkBox')} text="Need further instructions" />
+        <MUIFormControl value={formData} className="form" required>
+            <MUIFormLabel component="legend">Name</MUIFormLabel>
+            <DXTextBoxWrapper onValueChange={handleFormDataChange('textBox')} />
+            <MUIInputLabel>Surname</MUIInputLabel>
+            <MUIInput value={formData.muiInput} onChange={handleMuiFormDataChange('muiInput')} /> {/* This is to demonstrate how to handle changes if you have both MUI and DX inputs */}
+
+            <MUIInputLabel>Options</MUIInputLabel>
+            <DXCheckBoxWrapper onValueChange={handleFormDataChange('checkBox')} text="Need further instructions" />
             <br />
+            <DxButtonSxWrapped sx={{
+                'backgroundColor': theme.palette.error.main,
+                'color': theme.palette.text.secondary
+            }} text="Reset Form" onClick={handleReset} />
             <button type="submit">Submit</button>
-        </FormControl>
+        </MUIFormControl>
     </form>
 }
 

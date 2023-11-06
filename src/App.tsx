@@ -1,11 +1,7 @@
-import { useState, useRef } from 'react';
-import { Button, FormControl, InputLabel, Input, FormHelperText } from '@mui/material';
-import DxButton from 'devextreme-react/button';
-import styled, { InterpolationFunction, ThemeProvider } from 'styled-components';
-import TextBox from 'devextreme-react/text-box';
+import { ThemeProvider } from 'styled-components';
+
 import MUIFormDxEditors from './MUI-Form-with-DX-editors';
-import { unstable_styleFunctionSx, SxProps, Box, createTheme } from '@mui/system';
-import { useFormControlContext } from '@mui/base/FormControl';
+import { Box, createTheme } from '@mui/system';
 import DxFormMUIEditors from './DX-Form-with-MUI-editors';
 // import '@fontsource/roboto/300.css';
 // import '@fontsource/roboto/400.css';
@@ -14,19 +10,6 @@ import DxFormMUIEditors from './DX-Form-with-MUI-editors';
 import 'devextreme/dist/css/dx.light.css';
 
 import './App.css'
-interface DivProps {
-  sx?: SxProps;
-}
-const Div = styled('div')<DivProps>(
-  unstable_styleFunctionSx as InterpolationFunction<DivProps>,
-);
-
-interface DxButtonWrappedProps {
-  sx?: SxProps;
-}
-const DxButtonWrapped = styled(DxButton)<DivProps>(
-  unstable_styleFunctionSx as InterpolationFunction<DivProps>,
-);
 
 const theme = createTheme({
   palette: {
@@ -35,7 +18,7 @@ const theme = createTheme({
     },
     text: {
       primary: '#173A5E',
-      secondary: '#46505A',
+      secondary: '#EBE7E7',
     },
     action: {
       active: '#001E3C',
@@ -43,23 +26,28 @@ const theme = createTheme({
     success: {
       dark: '#009688',
     },
+    error: {
+      main: '#FF6666'
+    }
   },
 });
 
 function App() {
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <div>Mui Form with DX editors</div>
-        <Box sx={{ p: 2, border: '1px dashed grey', display: 'flex', color: theme.palette.text.primary }}>
-          <MUIFormDxEditors />
-        </Box>
-        <div>DX Form with MUI editors</div>
-        <Box sx={{ p: 2, border: '1px dashed grey', display: 'flex', color: theme.palette.text.primary }}>
-          <DxFormMUIEditors />
-        </Box>
-      </ThemeProvider>
-    </>
+    <div id='app'>
+      <div id="app-container">
+        <ThemeProvider theme={theme}>
+          <div>Mui Form with DX editors</div>
+          <Box sx={{ p: 2, border: '1px dashed grey', display: 'flex', color: theme.palette.text.primary }}>
+            <MUIFormDxEditors />
+          </Box>
+          <div>DX Form with MUI editors</div>
+          <Box sx={{ p: 2, border: '1px dashed grey', display: 'flex', color: theme.palette.text.primary }}>
+            <DxFormMUIEditors />
+          </Box>
+        </ThemeProvider>
+      </div>
+    </div>
   )
 }
 

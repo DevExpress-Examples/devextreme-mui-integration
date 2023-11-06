@@ -1,12 +1,15 @@
-import { Button, Form } from "devextreme-react"
-import FormControl, { useFormControlContext } from "@mui/base/FormControl"
 import { FormEvent, useCallback, useState } from "react";
-import TextBox from "devextreme-react/text-box";
-import { Input, InputLabel, Checkbox } from "@mui/material";
-import FormLabel from '@mui/material/FormLabel';
+import DXForm, { Item as DXItem, Label as DXLabel } from "devextreme-react/form";
+import DXButton, { ButtonTypes } from "devextreme-react/button";
+import DXTextBox from "devextreme-react/text-box";
+
+import notify from "devextreme/ui/notify";
+
+import { Input as MUIInput, InputLabel as MUIInputLabel, Checkbox as MUICheckbox } from "@mui/material";
+import MUIFormLabel from '@mui/material/FormLabel';
+
 import './Mui-Form.css';
-import { Item, Label } from "devextreme-react/form";
-import { ClickEvent } from "devextreme/ui/button";
+
 interface FormData {
     textBox: string,
     muiInput: string,
@@ -26,25 +29,27 @@ export default function App() {
         updateFormData({ ...formData, [name]: event.target.value });
     }
     const InputTemplate = () => {
-        return <Input onChange={handleMuiFormDataChange('muiInput')} />;
+        return <MUIInput onChange={handleMuiFormDataChange('muiInput')} />;
     }
-    const handleSubmit = useCallback((event: FormEvent | ClickEvent) => {
-        console.log(formData);
+    const handleSubmit = useCallback((event: FormEvent | ButtonTypes.ClickEvent) => {
+        notify(`User ${formData.textBox} ${formData.muiInput} succesfully registered`);
     }, [formData])
     return <>
         <form onSubmit={handleSubmit}>
-            <Form className="form">
-                <Item render={InputTemplate}>
-                    <Label render={() => <FormLabel component="legend">Name</FormLabel>}></Label>
-                </Item>
-                <Item render={() => <TextBox label="Surname" onValueChange={handleFormDataChange('textBox')}></TextBox>} />
-                <Item render={() => (<>
+            <DXForm className="form">
+                <DXItem render={InputTemplate}>
+                    <DXLabel render={() => <MUIFormLabel component="legend">Name</MUIFormLabel>}></DXLabel>
+                </DXItem>
+                <DXItem>
+                    <DXTextBox label="Surname" onValueChange={handleFormDataChange('textBox')}></DXTextBox>
+                </DXItem>
+                <DXItem render={() => (<>
                     Need further instructions
-                    <Checkbox onChange={handleMuiFormDataChange('checkBox')} />
+                    <MUICheckbox onChange={handleMuiFormDataChange('checkBox')} />
                 </>)} />
-                < Label render={() => <InputLabel>Options</InputLabel>} />
-                <Item render={() => <Button onClick={handleSubmit}>Submit</Button>}></Item>
-            </Form>
+                < DXLabel render={() => <MUIInputLabel>Options</MUIInputLabel>} />
+                <DXItem render={() => <DXButton onClick={handleSubmit}>Submit</DXButton>}></DXItem>
+            </DXForm>
         </form >
     </>
 } 
