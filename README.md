@@ -31,7 +31,6 @@ This React application demonstrates how to use DevExtreme components and MUI com
 - [Use MUI components in your DevExtreme application](https://js.devexpress.com/React/Documentation/Guide/Common/React_Integration_Guides/Use_MUI_components_in_your_DevExtreme_application/)
 
 <!-- feedback -->
-
 ## Does this example address your development requirements/objectives?
 
 [<img src="https://www.devexpress.com/support/examples/i/yes-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=devextreme-mui-integration&~~~was_helpful=yes) [<img src="https://www.devexpress.com/support/examples/i/no-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=devextreme-mui-integration&~~~was_helpful=no)
