@@ -31,7 +31,7 @@ export default function App() {
     const InputTemplate = () => {
         return <MUIInput onChange={handleMuiFormDataChange('muiInput')} />;
     }
-    const handleSubmit = useCallback((event: FormEvent | ButtonTypes.ClickEvent) => {
+    const handleSubmit = useCallback((_event: FormEvent | ButtonTypes.ClickEvent) => {
         notify(`User ${formData.textBox} ${formData.muiInput} succesfully registered`);
     }, [formData])
     return <>
